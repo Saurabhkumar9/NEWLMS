@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 });
 
 // Clerk webhook route
-app.post("/clerk", clerkWebhooks);
+app.post("/clerk",express.json(), clerkWebhooks);
 
 // API routes
 app.use("/v1/api", courseRouter);
