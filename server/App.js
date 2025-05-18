@@ -23,7 +23,7 @@ app.use(clerkMiddleware());
 app.use(express.json());
 
 
-app.get('/', requireAuth(), (req, res) => {
+app.get('/', (req, res) => {
   res.json({ message: 'Backend run successfull.' });
 });
 
