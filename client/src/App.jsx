@@ -14,6 +14,8 @@ import { useUser } from "@clerk/clerk-react";
 import MyCourses from "./pages/educator/MyCourses";
 import CourseEduDetails from "./pages/educator/CourseEduDetails";
 import AddLecturePage from "./pages/educator/AddLecturePage";
+import PaymentSuccess from "./pages/payment/PaymentSuccess";
+import PaymentFailed from "./pages/payment/PaymentFailed";
 
 const App = () => {
   const { user } = useUser();
@@ -35,6 +37,9 @@ const App = () => {
             <Route path="add-lecture/:id/:chapterId" element={<AddLecturePage />} />
           </Route>
         )}
+
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/cancel" element={<PaymentFailed />} />
       </Routes>
       <Footer />
     </>

@@ -8,7 +8,7 @@ const paymentSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'completed', 'failed'],
+      
       default: 'pending',
     },
     courseId: {
@@ -24,6 +24,15 @@ const paymentSchema = new mongoose.Schema(
     capturedAt: {
       type: Date,
     },
+    userId:{
+      type:String
+    },
+    transactionId:{
+      type:String
+    },
+    paymentMethod:{
+      type:String
+    }
   },
   {
     timestamps: true, 

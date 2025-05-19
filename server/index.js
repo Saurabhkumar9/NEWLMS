@@ -41,9 +41,18 @@ app.post(
 
 // API routes
 app.use("/v1/api", courseRouter);
+
+// payment
 app.use("/v1/api", paymentRouter);
 
+
+
+
 // Error handling middleware
+
+
+
+
 app.use((err, req, res, next) => {
   res.status(err.status || 500).json({
     success: false,
