@@ -72,7 +72,7 @@ const findCourse = async (req, res, next) => {
   try {
     const educator = req.auth.userId;
 
-    const courses = await Course.find({ educator });
+    const courses = await Course.find({ educator }).sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -108,32 +108,7 @@ const findCourseById = async (req, res, next) => {
   }
 };
 
-const deleteCourseById = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const educator = req.auth.userId;
-    if (!id) {
-      throw handleError(400, "Course ID is required");
-    }
 
-    const deletedCourse = await Course.findOneAndDelete({
-      _id: id,
-      educator: educator,
-    });
-
-    if (!deletedCourse) {
-      throw handleError(404, "Course not found");
-    }
-
-    res.status(200).json({
-      success: true,
-      message: "Course deleted successfully",
-      data: deletedCourse,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
 
 const addChapter = async (req, res, next) => {
   try {
@@ -221,12 +196,44 @@ const deleteChapter = async (req, res, next) => {
 // user  pages
 const fetchAllCourseByUser = async (req, res, next) => {
   try {
-    const findCourses = await Course.find();
+    const findCourses = await Course.find().sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
       message: "Courses fetched successfully",
       data: findCourses || [],
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+const deleteCourseById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const educator = req.auth.userId;
+    if (!id) {
+      throw handleError(400, "Course ID is required");
+    }
+
+    const deletedCourse = await Course.findOneAndDelete({
+      _id: id,
+      educator: educator,
+    });
+
+    if (!deletedCourse) {
+      throw handleError(404, "Course not found");
+    }
+
+     if (deletedCourse.thumbnail_pub_id) {
+    const data=  await cloudinary.uploader.destroy(deletedCourse.thumbnail_pub_id);
+    console.log(data)
+    }
+    res.status(200).json({
+      success: true,
+      message: "Course deleted successfully",
+      data: deletedCourse,
     });
   } catch (error) {
     next(error);
@@ -240,4 +247,5 @@ module.exports = {
   addChapter,
   deleteChapter,
   fetchAllCourseByUser,
+  deleteCourseById
 };

@@ -8,32 +8,6 @@ const Navbar = ({ isCourselistPage }) => {
   const { user, isSignedIn } = useUser();
   const role = user?.publicMetadata?.role; // 👈 Get role from metadata
 
-  useEffect(() => {
-    if (isSignedIn && user) {
-      const userSent = localStorage.getItem('userSent');
-
-      if (!userSent) {
-        const sendUserToBackend = async () => {
-          try {
-            // You can send user info here
-            // await axios.post('http://localhost:5000/api/users', {
-            //   id: user.id,
-            //   name: user.fullName,
-            //   email: user.primaryEmailAddress.emailAddress,
-            //   role: user.publicMetadata?.role
-            // });
-
-            console.log('User sent to backend');
-            localStorage.setItem('userSent', 'true');
-          } catch (error) {
-            console.error('Error sending user data:', error);
-          }
-        };
-
-        sendUserToBackend();
-      }
-    }
-  }, [isSignedIn, user]);
 
   return (
     <nav className={`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${isCourselistPage ? 'bg-white' : 'bg-cyan-100/70'}`}>
@@ -55,7 +29,7 @@ const Navbar = ({ isCourselistPage }) => {
               {user && (
                 <>
                   <span>|</span>
-                  <Link to="/my-enrollments" className="hover:text-gray-700">My Enrollments</Link>
+                  <Link to="/my-course" className="hover:text-gray-700">My Enrollments</Link>
                 </>
               )}
             </div>
@@ -84,7 +58,7 @@ const Navbar = ({ isCourselistPage }) => {
                 <>
                   <button className="hover:text-gray-700">Become Educator</button>
                   <span>|</span>
-                  <Link to="/my-enrollments" className="hover:text-gray-700">My Enrollments</Link>
+                  <Link to="/my-course" className="hover:text-gray-700">My Enrollments</Link>
                 </>
               )}
             </div>

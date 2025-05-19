@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { useAppContext } from "../../context/AuthContext";
+import { FiTrash2 } from "react-icons/fi";
+import { ImSpinner2 } from "react-icons/im";
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -74,33 +76,32 @@ const CourseEduDetails = () => {
     }
   };
 
- 
-
   const handleDeleteChapter = async (chapterId) => {
-  const isVerify = window.confirm("Are you sure you want to delete this chapter?");
-  if (!isVerify) return;
-  
-  try {
-   console.log(token, id, chapterId)
-    const response = await axios.delete(
-      `http://localhost:4000/v1/api/course/${id}/chapter/${chapterId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    const isVerify = window.confirm(
+      "Are you sure you want to delete this chapter?"
     );
-    
-    if(response.data.success) {
-      alert(response.data.message);
-      fetchCourse();
-    }
-  } catch (err) {
-    console.error("Delete error:", err);
-    alert(err.response?.data?.message || "Failed to delete chapter");
-  }
-};
+    if (!isVerify) return;
 
+    try {
+      console.log(token, id, chapterId);
+      const response = await axios.delete(
+        `http://localhost:4000/v1/api/course/${id}/chapter/${chapterId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        alert(response.data.message);
+        fetchCourse();
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+      alert(err.response?.data?.message || "Failed to delete chapter");
+    }
+  };
 
   const handleDeleteLecture = async (chapterId, lectureId) => {
     const isVerify = window.confirm("you want to delete lecture.");
@@ -119,6 +120,27 @@ const CourseEduDetails = () => {
 
       alert(response.data.message);
       fetchCourse();
+    } catch (err) {
+      console.log(err || "Failed to delete chapter details");
+    }
+  };
+  const handleDeleteCourse = async (chapterId, lectureId) => {
+    const isVerify = window.confirm("you want to delete Course.");
+    if (!isVerify) return;
+    try {
+      // console.log(id, chapterId,lectureId)
+      const response = await axios.delete(
+        `http://localhost:4000/v1/api/course-delete/${id}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert(response.data.message);
+      navigate(-1)
     } catch (err) {
       console.log(err || "Failed to delete chapter details");
     }
@@ -182,15 +204,12 @@ const CourseEduDetails = () => {
                     {course.courseDescription}
                   </p>
                   <div className="mt-3 flex flex-wrap items-center gap-2">
-                   
-                      <span className="text-base font-semibold text-gray-800 ">
-                         ₹{course.coursePrice}
-                      </span>
-                    
+                    <span className="text-base font-semibold text-gray-800 ">
+                      ₹{course.coursePrice}
+                    </span>
+
                     <span className="text-base font-semibold text-red-600 line-through">
-                       ₹
-                      {(
-                        course.coursePrice + course.courseDiscount)}
+                      ₹{course.coursePrice + course.courseDiscount}
                     </span>
                     {course.courseDiscount >= 0 && (
                       <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">
@@ -335,6 +354,32 @@ const CourseEduDetails = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className="flex justify-end">
+          <button
+          onClick={handleDeleteCourse}
+          disabled={loading}
+          className={`flex  gap-2 mt-20 px-3 py-1 text-sm rounded-md 
+              ${
+                loading
+                  ? "bg-red-400 cursor-not-allowed"
+                  : "bg-red-600 hover:bg-red-700"
+              } 
+              text-white transition duration-200`}
+          title="Delete Course"
+        >
+          {loading ? (
+            <>
+              <ImSpinner2 className="animate-spin" />
+              Deleting...
+            </>
+          ) : (
+            <>
+              <FiTrash2 />
+              Delete
+            </>
+          )}
+        </button>
         </div>
       </div>
     </div>

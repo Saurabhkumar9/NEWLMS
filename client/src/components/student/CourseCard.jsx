@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Rating } from 'react-simple-star-rating';
 
 const CourseCard = ({ item }) => {
+ 
   const navigate=useNavigate()
   return (
     <div 

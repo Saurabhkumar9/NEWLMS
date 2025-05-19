@@ -19,6 +19,23 @@ const createCheckoutSession = async (req, res) => {
       });
     }
 
+    const userData = await User.findOne({ clerkUserId: userId });
+
+    if (!userData) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if user already enrolled in course
+    const alreadyEnrolled = userData.enrolledCourses.some(
+      (courseId) => courseId.toString() === course._id.toString()
+    );
+
+    if (alreadyEnrolled) {
+      return res
+        .status(400)
+        .json({ message: "You have already purchased this course." });
+    }
+
     // Create Stripe Checkout session
     const session = await stripeInstance.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -45,12 +62,10 @@ const createCheckoutSession = async (req, res) => {
       },
     });
 
-   
-
     res.status(200).json({
       success: true,
       checkoutUrl: session.url,
-      transactionId: session.id, 
+      transactionId: session.id,
     });
   } catch (error) {
     console.error("Checkout error:", error);
@@ -60,7 +75,6 @@ const createCheckoutSession = async (req, res) => {
     });
   }
 };
-
 
 const verifyPaymentManually = async (req, res) => {
   try {
@@ -77,10 +91,9 @@ const verifyPaymentManually = async (req, res) => {
       expand: ["payment_intent", "payment_intent.last_payment_error"],
     });
 
-    console.log(session)
+    console.log(session);
     switch (session.payment_status) {
       case "paid":
-       
         const existingPayment = await Payment.findOne({ orderId: session.id });
         if (existingPayment) {
           return res.status(200).json({
@@ -91,20 +104,19 @@ const verifyPaymentManually = async (req, res) => {
           });
         }
 
-        
         const payment = await Payment.create({
-          amount: session.amount_total / 100 ,
+          amount: session.amount_total / 100,
           status: session.payment_status,
           orderId: session.id,
           transactionId: session.payment_intent?.id,
           paymentMethod: session.payment_method_types?.[0],
           courseId: session.metadata?.courseId,
           userId: session.metadata?.userId,
-         
         });
 
-        
-        const userData = await User.findOne({ clerkUserId: session.metadata?.userId });
+        const userData = await User.findOne({
+          clerkUserId: session.metadata?.userId,
+        });
 
         if (userData && session.metadata?.courseId) {
           // Avoid duplicate enrollment
@@ -124,7 +136,8 @@ const verifyPaymentManually = async (req, res) => {
 
       case "unpaid":
         const failureReason =
-          session.payment_intent?.last_payment_error?.message || "Payment failed";
+          session.payment_intent?.last_payment_error?.message ||
+          "Payment failed";
 
         return res.status(402).json({
           success: false,
@@ -153,12 +166,11 @@ const verifyPaymentManually = async (req, res) => {
     return res.status(500).json({
       success: false,
       status: "verification_error",
-      message: error.message || "Internal Server Error during payment verification",
+      message:
+        error.message || "Internal Server Error during payment verification",
     });
   }
 };
-
-
 
 module.exports = {
   createCheckoutSession,

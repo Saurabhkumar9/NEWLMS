@@ -1,5 +1,5 @@
 const express = require('express');
-const { createCourse, findCourse ,findCourseById, addChapter,deleteChapter, fetchAllCourseByUser} = require('../controllers/course.controller');
+const { createCourse, findCourse ,findCourseById, addChapter,deleteChapter, fetchAllCourseByUser, deleteCourseById} = require('../controllers/course.controller');
 const { requireAuth } = require("@clerk/express");
 const upload = require("../middleware/cloudinary.upload");
 const { addLecture,deleteLecture } = require('../controllers/lecture.controller');
@@ -22,5 +22,8 @@ courseRouter.delete('/course/:id/chapter/:chapterId/lecture/:lectureId',requireA
 // users fetch course
 
 courseRouter.get('/fetch-all-courses',fetchAllCourseByUser)
+
+
+courseRouter.delete('/course-delete/:id', requireAuth(), deleteCourseById)
 
 module.exports = { courseRouter };

@@ -81,7 +81,7 @@ const PaymentSuccess = () => {
           View My Courses
         </button>
         <button 
-          onClick={() => navigate(-2)} 
+          onClick={() => navigate('/')} 
           className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded transition"
         >
           Home

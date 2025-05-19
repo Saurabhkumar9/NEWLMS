@@ -4,7 +4,7 @@ import Home from "../src/pages/student/Home";
 import CourseList from "./pages/student/CourseList";
 import CourseDetails from "./pages/student/CourseDetails";
 import MyEnrollment from "./pages/student/MyEnrollment";
-import Player from "./pages/student/Player";
+// import Player from "./pages/student/Player";
 import Dashboard from "./pages/educator/Dashboard";
 import AddCourseDetails from "./pages/educator/AddCourseDetails";
 import StudentEnroll from "./pages/educator/StudentEnroll";
@@ -16,6 +16,7 @@ import CourseEduDetails from "./pages/educator/CourseEduDetails";
 import AddLecturePage from "./pages/educator/AddLecturePage";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
+import PurchesCourseDetail from "./components/student/PurchesCourseDetail";
 
 const App = () => {
   const { user } = useUser();
@@ -27,7 +28,8 @@ const App = () => {
         <Route path="/course-list" element={<CourseList />} />
         <Route path="/course-details/:id" element={<CourseDetails />} />
         <Route path="/my-course" element={<MyEnrollment />} />
-        <Route path="/player" element={<Player />} />
+        <Route path="/purces/course/details/:id"  element={<PurchesCourseDetail/>}/>
+        {/* <Route path="/player" element={<Player />} /> */}
         {user && (
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="add-course" element={<AddCourseDetails />} />

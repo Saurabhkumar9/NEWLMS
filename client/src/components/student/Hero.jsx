@@ -1,6 +1,6 @@
 import React from 'react'
 import { assets } from '../../assets/assets'
-import SearchBar from './SearchBar'
+
 
 const Hero = () => {
   const hero = {
@@ -33,7 +33,7 @@ const Hero = () => {
       <p className='text-sm hidden sm:block sm:text-base md:text-lg text-gray-600 max-w-2xl'>
         {hero.subtitle}
       </p>
-      <SearchBar/>
+     
     </div>
   )
 }
