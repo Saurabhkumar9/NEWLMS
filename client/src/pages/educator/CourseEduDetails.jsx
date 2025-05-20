@@ -12,7 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
+const URL=  import.meta.env.VITE_BASE_URL;
 const CourseEduDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const CourseEduDetails = () => {
   const fetchCourse = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/v1/api/course-details/${id}`,
+        `${URL}/v1/api/course-details/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ const CourseEduDetails = () => {
   const onSubmitChapter = async (data) => {
     try {
       const response = await axios.post(
-        `http://localhost:4000/v1/api/add-new-chapter/${id}`,
+        `${URL}/v1/api/add-new-chapter/${id}`,
         data,
         {
           headers: {
@@ -85,7 +85,7 @@ const CourseEduDetails = () => {
     try {
       console.log(token, id, chapterId);
       const response = await axios.delete(
-        `http://localhost:4000/v1/api/course/${id}/chapter/${chapterId}`,
+        `${URL}/v1/api/course/${id}/chapter/${chapterId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ const CourseEduDetails = () => {
     try {
       // console.log(id, chapterId,lectureId)
       const response = await axios.delete(
-        `http://localhost:4000/v1/api/course/${id}/chapter/${chapterId}/lecture/${lectureId}`,
+        `${URL}/v1/api/course/${id}/chapter/${chapterId}/lecture/${lectureId}`,
 
         {
           headers: {
@@ -130,7 +130,7 @@ const CourseEduDetails = () => {
     try {
       // console.log(id, chapterId,lectureId)
       const response = await axios.delete(
-        `http://localhost:4000/v1/api/course-delete/${id}`,
+        `${URL}/v1/api/course-delete/${id}`,
 
         {
           headers: {

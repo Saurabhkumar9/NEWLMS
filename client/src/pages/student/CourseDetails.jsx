@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CalltoAction from '../../components/student/CalltoAction';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
+const URL=  import.meta.env.VITE_BASE_URL;
 const CourseDetails = () => {
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -11,7 +11,7 @@ const CourseDetails = () => {
   const fetchCourseDetails = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:4000/v1/api/course-details/${id}`);
+      const response = await axios.get(`${URL}/v1/api/course-details/${id}`);
       setCourse(response.data.data);
     } catch (error) {
       console.error('Error fetching course:', error.response?.data?.message || error.message);

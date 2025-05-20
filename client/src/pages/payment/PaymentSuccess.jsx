@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { CheckCircle } from 'react-feather';
 import axios from 'axios';
-
+const URL=  import.meta.env.VITE_BASE_URL;
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const PaymentSuccess = () => {
 
     const verifyPayment = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:4000/v1/api/verify-payment/${sessionId}`);
+        const { data } = await axios.get(`${URL}/v1/api/verify-payment/${sessionId}`);
         console.log(data);
         
         if (data.success) {

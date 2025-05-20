@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useAppContext } from "../../context/AuthContext";
 import { useState } from "react";
-
+const URL=  import.meta.env.VITE_BASE_URL;
 const CalltoAction = ({ course }) => {
   const { token } = useAppContext();
   
@@ -14,7 +14,7 @@ const [loading, setLoading] = useState(false);
 setLoading(true)
     try {
       const response = await axios.post(
-        "http://localhost:4000/v1/api/payment",
+        `${URL}/v1/api/payment`,
         {
           courseId: course._id, 
         },

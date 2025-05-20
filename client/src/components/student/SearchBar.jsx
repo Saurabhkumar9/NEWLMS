@@ -1,11 +1,10 @@
 import React from 'react';
 import { assets } from '../../assets/assets';
 
-const SearchBar = () => {
+const SearchBar = ({ searchTerm, onSearchChange }) => {
   const handleSearch = (e) => {
     e.preventDefault();
-    // Add your search logic here
-    console.log("Search submitted");
+    // Search is handled by parent component through onSearchChange
   };
 
   return (
@@ -15,6 +14,8 @@ const SearchBar = () => {
           type="text"
           placeholder="Search for courses"
           className="w-full py-3 px-4 pr-12 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          value={searchTerm}
+          onChange={(e) => onSearchChange(e.target.value)}
         />
         <button
           type="submit"

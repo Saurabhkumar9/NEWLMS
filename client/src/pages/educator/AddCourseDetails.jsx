@@ -3,7 +3,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { FiPlus, FiTrash2, FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { useAppContext } from "../../context/AuthContext";
 import axios from "axios";
-
+const URL=  import.meta.env.VITE_BASE_URL;
 const AddCourseDetails = () => {
   const { token } = useAppContext();
 
@@ -112,7 +112,7 @@ const AddCourseDetails = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:4000/v1/api/create-course`,
+        `${URL}/v1/api/create-course`,
         formData,
         {
           headers: {

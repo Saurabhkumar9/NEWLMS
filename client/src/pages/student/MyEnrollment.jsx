@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAppContext } from "../../context/AuthContext";
 import { Rating } from 'react-simple-star-rating'; // Ensure this is installed
+const URL=  import.meta.env.VITE_BASE_URL;
+
+
 
 const MyEnrollment = () => {
   const navigate=useNavigate()
@@ -12,7 +15,7 @@ const MyEnrollment = () => {
   const fetchCourses = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/v1/api/enrolled-courses",
+        `${URL}/v1/api/enrolled-courses`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

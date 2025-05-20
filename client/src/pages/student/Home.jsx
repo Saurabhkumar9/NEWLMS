@@ -4,6 +4,7 @@ import CoursesSection from '../../components/student/CousreSection'
 import Feedback from '../../components/student/Feedback'
 
 const Home = () => {
+  
   return (
     <div>
      <Hero/>

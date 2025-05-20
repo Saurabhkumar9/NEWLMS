@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import axios from 'axios'
 export const AppContext = createContext();
-
+const URL=  import.meta.env.VITE_BASE_URL;
 export const AppContextProvider = ({ children }) => {
   const { getToken } = useAuth();
   const [token, setToken] = useState("");
@@ -30,7 +30,7 @@ export const AppContextProvider = ({ children }) => {
 
   const fetchCourse=async()=>{
     try {
-      const response=await axios.get('http://localhost:4000/v1/api/fetch-all-courses')
+      const response=await axios.get(`${URL}/v1/api/fetch-all-courses`)
 
       setCourseData(response.data.data || [])
     } catch (error) {

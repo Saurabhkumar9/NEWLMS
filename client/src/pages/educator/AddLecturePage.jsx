@@ -4,7 +4,7 @@ import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useAppContext } from '../../context/AuthContext';
 import axios from 'axios';
 import { useFieldArray, useForm } from 'react-hook-form';
-
+const URL=  import.meta.env.VITE_BASE_URL;
 
 const AddLecturePage = () => {
   const { id, chapterId } = useParams();
@@ -43,7 +43,7 @@ const AddLecturePage = () => {
       }
 
       const response = await axios.post(
-        `http://localhost:4000/v1/api/courses/${id}/chapters/${chapterId}/lectures`,
+        `${URL}/v1/api/courses/${id}/chapters/${chapterId}/lectures`,
         { lectures: validLectures },
         { 
           headers: { 

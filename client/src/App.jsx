@@ -17,6 +17,7 @@ import AddLecturePage from "./pages/educator/AddLecturePage";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
 import PurchesCourseDetail from "./components/student/PurchesCourseDetail";
+import SubscriptionPage from "./pages/educator/SubscriptionPage";
 
 const App = () => {
   const { user } = useUser();
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="student-enroll" element={<StudentEnroll />} />
             <Route path="courses/details/:id" element={<CourseEduDetails />} />
             <Route path="add-lecture/:id/:chapterId" element={<AddLecturePage />} />
+            <Route path="subscibe-page" element={<SubscriptionPage />} />
           </Route>
         )}
 

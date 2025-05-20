@@ -1,45 +1,57 @@
-import React from "react";
-import { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-
+const URL=  import.meta.env.VITE_BASE_URL;
 const Feedback = () => {
-  const Feedback = [
-    {
-      name: "Donald Jackman",
-      position: "SWE 1 @ Amazon",
-      rating: 5,
-      review:
-        "I've been using imggify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.",
-    },
-    {
-      name: "Richard Nelson",
-      position: "SWE 2 @ Samsung",
-      rating: 4,
-      review:
-        "I've been using imggify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.",
-    },
-    {
-      name: "James Washington",
-      position: "SWE 2 @ Google",
-      rating: 4,
-      review:
-        "I've been using imggify for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.",
-    },
-  ];
-
+  const [feedbacks, setFeedbacks] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchFeedback = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${URL}/v1/api/fetch-feed`
+      );
+      setFeedbacks(response.data?.data || []);
+      setError(null);
+    } catch (error) {
+      console.error(error);
+      setError(error.response?.data?.message || "Failed to fetch feedback");
+      setFeedbacks([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFeedback();
+  }, []);
 
   const nextTestimonial = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === Feedback.length - 1 ? 0 : prevIndex + 1
+      prevIndex === feedbacks.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const prevTestimonial = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? Feedback.length - 1 : prevIndex - 1
+      prevIndex === 0 ? feedbacks.length - 1 : prevIndex - 1
     );
   };
+
+  if (loading) {
+    return <div className="text-center py-12">Loading feedback...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-12 text-red-500">{error}</div>;
+  }
+
+  if (feedbacks.length === 0) {
+    return <div className="text-center py-12">No feedback available</div>;
+  }
 
   return (
     <div className="py-12 px-4 sm:px-8 md:px-16 lg:px-24 bg-gray-50">
@@ -53,32 +65,28 @@ const Feedback = () => {
       </div>
 
       {/* Mobile View - Single Card with Arrows */}
-      <div className="md:hidden relative">
+      <div className="md:hidden relative ">
         <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">
-              {Feedback[currentIndex].name}
-            </h3>
-            <p className="text-gray-500 text-sm">
-              {Feedback[currentIndex].position}
-            </p>
+          <div className="flex items-center gap-4 mb-4">
+            <img
+              src={feedbacks[currentIndex].userId.imageUrl}
+              alt={feedbacks[currentIndex].userId.name}
+              className="w-12 h-12 rounded-full"
+            />
+            <div>
+              <h3 className="text-xl font-semibold">
+                {feedbacks[currentIndex].userId.name}
+              </h3>
+              <p className="text-gray-500 text-sm">
+                {feedbacks[currentIndex].userId.email}
+              </p>
+            </div>
           </div>
-          <div className="flex mb-4">
-            {[...Array(5)].map((_, i) => (
-              <span
-                key={i}
-                className={`text-xl ${
-                  i < Feedback[currentIndex].rating
-                    ? "text-yellow-400"
-                    : "text-gray-300"
-                }`}
-              >
-                ★
-              </span>
-            ))}
-          </div>
-          <p className="text-gray-700 mb-4">{Feedback[currentIndex].review}</p>
-          <button className="text-blue-600 font-medium">Read more</button>
+
+          <p className="text-gray-700 mb-4">
+            {feedbacks[currentIndex].message}
+          </p>
+          {/* <button className="text-blue-600 font-medium">Read more</button> */}
         </div>
 
         <div className="flex justify-center gap-4">
@@ -99,33 +107,28 @@ const Feedback = () => {
 
       {/* Desktop View - All Cards */}
       <div className="hidden md:grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {Feedback.map((testimonial, index) => (
+        {feedbacks.map((testimonial, index) => (
           <div
             key={index}
             className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md p-6"
           >
-            {/* Top Section with Image, Name, Role */}
             <div className="flex items-center gap-4 mb-4">
               <img
-                src="https://randomuser.me/api/portraits/men/32.jpg"
-                alt="Donald Jackman"
-                className="w-12 h-12 rounded-full"
+                src={testimonial.userId?.imageUrl}
+                alt={testimonial.userId?.name}
+                className="w-12 h-12 rounded-full object-cover"
               />
               <div>
                 <h3 className="text-lg font-semibold text-gray-800">
-                  {testimonial.name}
+                  {testimonial.userId?.name}
                 </h3>
-                <p className="text-sm text-gray-500">{testimonial.position}</p>
+                <p className="text-sm text-gray-500">
+                  {testimonial.userId?.email}
+                </p>
               </div>
             </div>
 
-            {/* Rating Stars */}
-            <div className="flex text-orange-500 mb-3"></div>
-
-            {/* Testimonial Text */}
-            <p className="text-gray-700 text-sm mb-3">{testimonial.review}</p>
-
-           
+            <p className="text-gray-700 text-sm mb-3">{testimonial.message}</p>
           </div>
         ))}
       </div>

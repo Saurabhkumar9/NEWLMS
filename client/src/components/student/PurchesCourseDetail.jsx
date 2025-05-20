@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { CiCircleRemove } from "react-icons/ci";
+
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -9,7 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import CalltoAction from "../../components/student/CalltoAction";
 import YouTube from "react-youtube"; // ✅ Import react-youtube
-
+const URL=  import.meta.env.VITE_BASE_URL;
 const PurchesCourseDetail = () => {
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,7 +22,7 @@ const PurchesCourseDetail = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:4000/v1/api/course-details/${id}`
+        `${URL}/v1/api/course-details/${id}`
       );
       setCourse(response.data.data);
     } catch (error) {

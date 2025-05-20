@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAppContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+const URL=  import.meta.env.VITE_BASE_URL;
 const MyCourses = () => {
   const { token } = useAppContext();
   const [courses, setCourses] = useState([]);
@@ -14,7 +14,7 @@ const MyCourses = () => {
     const fetchCourses = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/v1/api/fetch-eductor-course",
+          `${URL}/v1/api/fetch-eductor-course`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

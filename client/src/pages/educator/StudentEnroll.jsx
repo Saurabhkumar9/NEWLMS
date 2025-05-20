@@ -7,7 +7,7 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 import axios from "axios";
-
+const URL=  import.meta.env.VITE_BASE_URL;
 const StudentEnroll = () => {
   const [paymentData, setPaymentData] = useState([]);
   const [stats, setStats] = useState({
@@ -27,7 +27,7 @@ const StudentEnroll = () => {
   const fetchCoursePurchaseData = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/v1/api/all-payments"
+        `${URL}/v1/api/all-payments`
       );
       const data = response.data.data;
 

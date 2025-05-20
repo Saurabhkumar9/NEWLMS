@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { UserButton, SignInButton, useUser } from '@clerk/clerk-react';
 import { assets } from '../../assets/assets';
-import { useEffect } from 'react';
-import axios from 'axios';
+
 
 const Navbar = ({ isCourselistPage }) => {
   const { user, isSignedIn } = useUser();
@@ -10,7 +9,7 @@ const Navbar = ({ isCourselistPage }) => {
 
 
   return (
-    <nav className={`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-500 py-4 ${isCourselistPage ? 'bg-white' : 'bg-cyan-100/70'}`}>
+    <nav className={`flex items-center justify-between px-4 sm:px-10 md:px-14 lg:px-36 border-b border-gray-300 py-0 ${isCourselistPage ? 'bg-white' : 'bg-cyan-100/70'}`}>
       <Link to="/">
         <img src={assets.logo} alt="Logo" className="w-28 lg:w-32 cursor-pointer" />
       </Link>

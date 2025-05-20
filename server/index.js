@@ -8,6 +8,8 @@ const { courseRouter } = require("./src/routes/course.route");
 const paymentRouter = require("./src/routes/payment.route");
 const { clerkWebhooks } = require("./src/controllers/webhooks.controller");
 const connection = require("./src/db/db");
+const subscibeRouter = require("./src/routes/subscribe.route");
+const feedbackRouter = require("./src/routes/feedback.route");
 
 const app = express();
 
@@ -45,7 +47,10 @@ app.use("/v1/api", courseRouter);
 // payment
 app.use("/v1/api", paymentRouter);
 
+app.use('/v1/api', subscibeRouter)
 
+
+app.use('/v1/api', feedbackRouter)
 
 
 // Error handling middleware
