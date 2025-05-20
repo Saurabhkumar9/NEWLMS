@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import CalltoAction from "../../components/student/CalltoAction";
 import YouTube from "react-youtube"; // ✅ Import react-youtube
-const URL=  import.meta.env.VITE_BASE_URL;
+const URL = import.meta.env.VITE_BASE_URL;
 const PurchesCourseDetail = () => {
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,9 +21,7 @@ const PurchesCourseDetail = () => {
   const fetchPurchesCourseDetail = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${URL}/v1/api/course-details/${id}`
-      );
+      const response = await axios.get(`${URL}/v1/api/course-details/${id}`);
       setCourse(response.data.data);
     } catch (error) {
       console.error(
@@ -127,6 +125,27 @@ const PurchesCourseDetail = () => {
                           % OFF
                         </span>
                       )}
+
+                      <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-3 mb-4 rounded">
+                        <div class="flex items-center">
+                          <svg
+                            class="w-5 h-5 mr-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                            />
+                          </svg>
+                          <strong>Disclaimer:</strong> This is an{" "}
+                          <u>external YouTube video</u>. Used for testing
+                          purposes only. I do not own this content.
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -140,7 +159,7 @@ const PurchesCourseDetail = () => {
                 <h2 className="text-lg font-semibold mb-2">Now Playing</h2>
                 <CiCircleRemove
                   onClick={() => setSelectedVideoId(false)}
-                  size={28} 
+                  size={28}
                   className="bg-red-100 p-1 rounded-full font-bold text-black cursor-pointer"
                 />
               </div>
@@ -196,7 +215,10 @@ const PurchesCourseDetail = () => {
                         }
                       }}
                     >
-                      <PlayIcon size={28} className="h-4 w-4 text-gray-500 mr-3" />
+                      <PlayIcon
+                        size={28}
+                        className="h-4 w-4 text-gray-500 mr-3"
+                      />
                       <div>
                         <p className="text-sm font-medium text-gray-800">
                           Lecture {lecture.lectureOrder}: {lecture.lectureTitle}

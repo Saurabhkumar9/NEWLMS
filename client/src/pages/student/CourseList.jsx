@@ -16,12 +16,27 @@ const CourseList = () => {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb and Title */}
+      <div class="   bg-red-600 text-white text-sm font-medium py-2 px-4 rounded-lg shadow-lg text-center max-w-md mx-auto">
+  <div
+  class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-2 sm:p-3 md:p-4 text-sm sm:text-base leading-snug rounded-md max-w-full mx-auto"
+  role="alert"
+>
+  <strong class="font-semibold block mb-1">⚠️ Warning:</strong>
+  <span class="block">
+    This course is intended solely for testing purposes in my own project.
+  </span>
+  <span class="block">
+    It may contain random video links used only for demonstration.
+  </span>
+  <span class="block">
+    This content is not authorized for sale or any commercial use.
+  </span>
+</div>
+
+</div>
       <div className="mb-6 md:mb-8">
         <div className="text-xs md:text-sm text-gray-500 mb-2">
-          <Link to="/" className="hover:text-blue-600">
-            Home
-          </Link>{" "}
-          / Course List
+         
         </div>
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
           Course List

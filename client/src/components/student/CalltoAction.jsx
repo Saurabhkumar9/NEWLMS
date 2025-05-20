@@ -2,21 +2,21 @@ import axios from "axios";
 import React from "react";
 import { useAppContext } from "../../context/AuthContext";
 import { useState } from "react";
-const URL=  import.meta.env.VITE_BASE_URL;
+const URL = import.meta.env.VITE_BASE_URL;
 const CalltoAction = ({ course }) => {
   const { token } = useAppContext();
-  
-const [loading, setLoading] = useState(false);
+
+  const [loading, setLoading] = useState(false);
   const buyCourse = async () => {
     if (!token) {
       return alert("Please login before buying the course.");
     }
-setLoading(true)
+    setLoading(true);
     try {
       const response = await axios.post(
         `${URL}/v1/api/payment`,
         {
-          courseId: course._id, 
+          courseId: course._id,
         },
         {
           headers: {
@@ -28,8 +28,7 @@ setLoading(true)
       console.log(response.data);
       if (response.data.success && response.data.checkoutUrl) {
         setTimeout(() => {
-        window.location.href = response.data.checkoutUrl;
-
+          window.location.href = response.data.checkoutUrl;
         }, 1000);
       } else {
         alert(response.data.message);
@@ -37,7 +36,7 @@ setLoading(true)
     } catch (error) {
       console.error("Error while buying course:", error);
       alert(error.response?.data?.message || "Failed to initiate payment.");
-    }finally {
+    } finally {
       setLoading(false); // Step 3: Stop loading
     }
   };
@@ -45,6 +44,25 @@ setLoading(true)
   return (
     <>
       <div className="relative">
+        <div class=" md:hidden sm:hidden lg:hidden bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-3 mb-4 rounded">
+          <div class="flex items-center">
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <strong>Disclaimer:</strong>    This course is intended solely for testing purposes in my own project. {" "}
+             It may contain random video links used only for demonstration. This content is not authorized for sale or any commercial use.
+          </div>
+        </div>
         <img
           src={
             course.courseThumbnail ||
@@ -133,20 +151,32 @@ setLoading(true)
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
+        <div className="flex items-center gap-2 text-sm  mb-6">
           <span className="flex items-center">
             <span className="text-yellow-400 mr-1">★</span> 4
           </span>
           <span>|</span>
+          <div class=" bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800  flex  justify-center ">
+           
+              <div class="text-red-600 font-bold text-lg mb-2">⚠️ Warning</div>
+              <p class="mb-4">
+                This is a <strong>demo payment gateway</strong>.
+                <span class="block">No real transactions will occur.</span>
+              </p>
+            
+          </div>
         </div>
 
         <button
           onClick={() => buyCourse()}
           disabled={loading}
- className={`w-full ${
-            loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-          } text-white font-medium py-3 px-4 rounded-lg transition-colors`}        >
-           {loading ? "Processing..." : "Enroll Now"}
+          className={`w-full ${
+            loading
+              ? "bg-blue-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          } text-white font-medium py-3 px-4 rounded-lg transition-colors`}
+        >
+          {loading ? "Processing..." : "Enroll Now"}
         </button>
       </div>
     </>

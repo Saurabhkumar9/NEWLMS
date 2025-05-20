@@ -106,7 +106,7 @@ const Feedback = () => {
       </div>
 
       {/* Desktop View - All Cards */}
-      <div className="hidden md:grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {feedbacks.map((testimonial, index) => (
           <div
             key={index}

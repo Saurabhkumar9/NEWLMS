@@ -108,7 +108,7 @@ const Footer = () => {
             <p className="text-gray-400 mb-4">
               The latest news, articles, and resources, sent to your inbox weekly.
             </p>
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col sm:flex-row md:flex-col gap-2">
               <input
                 type="email"
                 value={email}

@@ -24,7 +24,7 @@ const Navbar = ({ isCourselistPage }) => {
         ) : (
           <>
             <div className="flex items-center gap-5">
-              <button className="hover:text-gray-700">Become Educator</button>
+              {/* <button className="hover:text-gray-700">Become Educator</button> */}
               {user && (
                 <>
                   <span>|</span>
@@ -55,7 +55,7 @@ const Navbar = ({ isCourselistPage }) => {
             <div className="flex items-center gap-1 sm:gap-2 max-sm:text-xs">
               {user && (
                 <>
-                  <button className="hover:text-gray-700">Become Educator</button>
+                  {/* <button className="hover:text-gray-700">Become Educator</button> */}
                   <span>|</span>
                   <Link to="/my-course" className="hover:text-gray-700">My Enrollments</Link>
                 </>
