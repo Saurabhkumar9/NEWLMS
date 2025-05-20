@@ -33,14 +33,18 @@ const addFeedback = async (req, res) => {
 
 const getAllFeedback = async (req, res) => {
   try {
-    const feedbacks = await Feedback.find().sort({ createdAt: -1 }).populate(
-      "userId",  'name email imageUrl '
-    );
-;
-    res.status(200).json({ count: feedbacks.length, data: feedbacks });
+    const feedbacks = await Feedback.find()
+      .sort({ createdAt: -1 })
+      .populate("userId", "name email imageUrl");
+
+  
+    const validFeedbacks = feedbacks.filter(fb => fb.userId !== null);
+
+    res.status(200).json({ count: validFeedbacks.length, data: validFeedbacks });
   } catch (error) {
-    res.status(500).json({ message: 'Server Error', error: error.message });
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+
 
 module.exports = { addFeedback, getAllFeedback };
