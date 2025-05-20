@@ -27,37 +27,41 @@ const getEnrolledCourses = async (req, res) => {
 
 const getUserPurchasedCourseDetail = async (req, res) => {
   try {
-    // Step 1: Get all paid payments for the user
     const payments = await Payment.find({ status: "paid" });
 
     const courseDetails = await Promise.all(
       payments.map(async (payment) => {
-        const course = await Course.findById(payment.courseId);
-        const user = await User.findOne({
-          clerkUserId: payment.userId,
-        });
-        if (!course) return null;
+        try {
+          const course = await Course.findById(payment.courseId);
+          const user = await User.findOne({ clerkUserId: payment.userId });
 
-        return {
-          name:user.name,
-          email:user.email,
-          totalcourse:user.enrolledCourses.length,
-          courseTitle: course.courseTitle,
-          coursePrice: course.coursePrice,
-          courseThumbnail: course.courseThumbnail,
-          paymentDetails: {
-            amount: payment.amount,
-            method: payment.paymentMethod,
-            transactionId: payment.transactionId,
-            purchasedAt: payment.createdAt,
-          },
-        };
+          return {
+            name: user?.name || "Signout user delete our acount",
+            email: user?.email,
+            totalcourse: user?.enrolledCourses.length,
+            courseTitle: course?.courseTitle,
+            coursePrice: course?.coursePrice,
+            courseThumbnail: course?.courseThumbnail,
+            paymentDetails: {
+              amount: payment?.amount,
+              method: payment?.paymentMethod,
+              transactionId: payment?.transactionId,
+              purchasedAt: payment?.createdAt,
+            },
+          };
+        } catch (innerErr) {
+          console.error("Error in mapping payment:", innerErr);
+          return null;
+        }
       })
     );
 
+    // Filter out nulls
+    const filteredCourseDetails = courseDetails.filter((item) => item !== null);
+
     res.status(200).json({
       success: true,
-      data: courseDetails, 
+      data: filteredCourseDetails,
     });
   } catch (error) {
     console.error("Error fetching purchased course details:", error);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiBook, FiUsers, FiDollarSign } from 'react-icons/fi';
 import axios from 'axios';
+const URL=import.meta.env.VITE_BASE_URL;
 
 const StudentEnroll = () => {
   const [paymentData, setPaymentData] = useState([]);
@@ -13,8 +14,8 @@ const StudentEnroll = () => {
 
   const fetchCoursePurchaseData = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/v1/api/all-payments');
-      const data = response.data;
+      const response = await axios.get(`${URL}/v1/api/all-payments`);
+      const data = response.data.data;
       
       if (data && data.length > 0) {
         setPaymentData(data);
@@ -80,6 +81,7 @@ const StudentEnroll = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Method</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
