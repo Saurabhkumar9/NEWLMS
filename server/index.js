@@ -30,7 +30,7 @@ app.use(express.json());
 
 // Basic route to test server
 app.get("/", (req, res) => {
-  res.json({ message: "server run successful." });
+  res.json({ message: "server run successful.  youLogin for any action like buy and add course." });
 });
 
 // Clerk webhook route
